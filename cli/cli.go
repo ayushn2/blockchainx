@@ -9,6 +9,7 @@ import (
 	"strconv"
 
 	"github.com/ayushn2/blockchainx.git/blockchain"
+	"github.com/ayushn2/blockchainx.git/wallet"
 )
 
 type CammandLine struct{
@@ -21,6 +22,8 @@ func (cli *CammandLine) printUsage(){
 	fmt.Println(" createblockchain -address ADDRESS creates a blockchain")
 	fmt.Println(" printchain - Prints the blocks in the chain")
 	fmt.Println(" send -from FROM -to TO -amount AMOUNT - Send amount")
+	fmt.Println(" createwallet - Creates a new wallet")
+	fmt.Println(" listaddresses - Lists the addresses in out wallet file")
 }
 
 func (cli *CammandLine) validateArgs(){
@@ -30,6 +33,22 @@ func (cli *CammandLine) validateArgs(){
 	}
 }
 
+func (cli *CammandLine) listAddresses(){
+	wallets, _ := wallet.CreateWallets()
+	addresses := wallets.GetAllAddresses()
+
+	for _, address := range addresses{
+		fmt.Println(address)
+	}
+}
+
+func (cli *CammandLine) createWallet(){
+	wallets, _ := wallet.CreateWallets()
+	address := wallets.AddWallet()
+	wallets.SaveFile()
+
+	fmt.Printf("New address is: %s\n",address)
+}
 
 func (cli *CammandLine) printChain(){
 	chain := blockchain.ContinueBlockChain("")
@@ -88,6 +107,8 @@ func (cli *CammandLine) Run(){
 	createBlockchainCmd := flag.NewFlagSet("createblockchain",flag.ExitOnError)
 	sendCmd := flag.NewFlagSet("send",flag.ExitOnError)
 	printChainCmd := flag.NewFlagSet("printchain",flag.ExitOnError)
+	createWalletCmd := flag.NewFlagSet("createwallet",flag.ExitOnError)
+	listAddressesCmd := flag.NewFlagSet("listaddresses",flag.ExitOnError)
 
 	getBalanceAddress := getBalanceCmd.String("address","","The address has balance : ")
 	createBlockchainAddress := createBlockchainCmd.String("address", "", "The address to send genesis block reward to")
@@ -106,6 +127,12 @@ func (cli *CammandLine) Run(){
 		if err != nil{
 			log.Panic(err)
 		}
+	case "listaddresses":
+		err := listAddressesCmd.Parse(os.Args[2:])
+		blockchain.Handle(err)
+	case "createwallet":
+		err := createWalletCmd.Parse(os.Args[:2])
+		blockchain.Handle(err)
 	case "printchain":
 		err := printChainCmd.Parse(os.Args[2:])
 		if err != nil{
@@ -135,6 +162,12 @@ func (cli *CammandLine) Run(){
 			runtime.Goexit()
 		}
 		cli.createBlockChain(*createBlockchainAddress)
+	}
+	if createWalletCmd.Parsed(){
+		cli.createWallet()
+	}
+	if listAddressesCmd.Parsed(){
+		cli.listAddresses()
 	}
 	if printChainCmd.Parsed() {
 		cli.printChain()

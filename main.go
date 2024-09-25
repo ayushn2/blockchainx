@@ -11,6 +11,8 @@ import (
 
 func main(){
 	defer os.Exit(0) //To ensure if the go runtime is exited properly
-	cli := cli.CammandLine{}
-	cli.Run()
+	cmd := cli.CammandLine{}
+	cmd.Run()
+
+
 }
