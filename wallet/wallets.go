@@ -64,18 +64,7 @@ func (ws *Wallets) LoadFile() error {
     return nil
 }
 
-// func (ws *Wallets) SaveFile() {
-// 	var content bytes.Buffer
-
-// 	gob.Register(elliptic.P256()) // Ensure P256 is registered
-
-// 	encoder := gob.NewEncoder(&content)
-// 	err := encoder.Encode(ws)
-// 	blockchain.Handle(err)
-
-// 	err = os.WriteFile(walletFile, content.Bytes(), 0644)
-// 	blockchain.Handle(err)
-// }
+// We used json encoding instead of an elliptic curve encoding
 
 func (ws *Wallets) SaveFile() {
 	jsonData, err := json.Marshal(ws)
