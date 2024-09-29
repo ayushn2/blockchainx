@@ -1,13 +1,13 @@
 package wallet
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/sha256"
 	"encoding/json"
 
-	"github.com/ayushn2/blockchainx.git/blockchain"
 	"golang.org/x/crypto/ripemd160"
 )
 
@@ -35,11 +35,21 @@ func (w Wallet) Address() []byte{
 	return address
 }
 
+func ValidateAddress(address string) bool{
+	pubKeyHash := Base58Decode([]byte(address))
+	actualChecksum := pubKeyHash[len(pubKeyHash)-checksumLength:]
+	version := pubKeyHash[0]
+	pubKeyHash = pubKeyHash[1 : len(pubKeyHash)-checksumLength]
+	targetChecksum := Checksum(append([]byte{version},pubKeyHash...))
+
+	return bytes.Equal(actualChecksum,targetChecksum)
+}
+
 func NewKeyPair() (ecdsa.PrivateKey, []byte){
 	curve := elliptic.P256()
 
 	private,err := ecdsa.GenerateKey(curve,rand.Reader)
-	blockchain.Handle(err)
+	Handle(err)
 
 	pub := append(private.PublicKey.X.Bytes(),private.PublicKey.Y.Bytes()...)
 	return *private,pub
@@ -73,7 +83,7 @@ func PublicKeyHash(pubKey []byte) []byte{
 
 	hasher := ripemd160.New()
 	_,err := hasher.Write(pubHash[:])
-	blockchain.Handle(err)
+	Handle(err)
 
 	publicRipMD := hasher.Sum(nil)
 

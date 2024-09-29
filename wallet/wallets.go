@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ayushn2/blockchainx.git/blockchain"
 )
 
 const walletFile = "./tmp/wallets.data"
@@ -55,11 +54,11 @@ func (ws *Wallets) LoadFile() error {
 
     // Read the content of the wallet file
     fileContent, err := os.ReadFile(walletFile)
-    blockchain.Handle(err)
+    Handle(err)
 
     // Unmarshal the JSON content into the Wallets struct
     err = json.Unmarshal(fileContent, &ws)
-    blockchain.Handle(err)
+    Handle(err)
 
     return nil
 }
@@ -68,8 +67,8 @@ func (ws *Wallets) LoadFile() error {
 
 func (ws *Wallets) SaveFile() {
 	jsonData, err := json.Marshal(ws)
-	blockchain.Handle(err)
+	Handle(err)
 
 	err = os.WriteFile(walletFile, jsonData, 0644)
-	blockchain.Handle(err)
+	Handle(err)
 }
