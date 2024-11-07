@@ -66,7 +66,7 @@ Generates a new wallet and address.
 
 Lists all addresses stored in the wallet.
 
-###Getting Started
+### Getting Started
 
 Prerequisites
 
