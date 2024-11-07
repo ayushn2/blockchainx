@@ -31,38 +31,38 @@ The `cli.go` file provides a command-line interface to interact with the blockch
 Commands:  
 
 - **Get Balance**  
-  ```bash  
-  getbalance -address ADDRESS
+    ```bash  
+    getbalance -address ADDRESS
 
 Fetch the balance for the given address.
 
 - **Create Blockchain**
-  ```bash
-  createdblockchain -address ADDRESS
+    ```bash
+    createdblockchain -address ADDRESS
 
 Initializes a new blockchain and rewards the address with the genesis block.
 
 - **Print Blockchain**
-  ```bash
-  printchain
+    ```bash
+    printchain
 
 Prints all blocks in the blockchain.
 
 - **Send Coins**
-  ```bash
-  send -from FROM -to TO -amount AMOUNT
+    ```bash
+    send -from FROM -to TO -amount AMOUNT
 
 Creates a transaction and mines a new block.
 
 - **Create Wallet**
-  ```bash
-  createwallet
+    ```bash
+    createwallet
 
 Generates a new wallet and address.
 
 - **List Addresses**
-  ```bash
-  listaddresses
+    ```bash
+    listaddresses
 
 Lists all addresses stored in the wallet.
 
@@ -74,22 +74,48 @@ Prerequisites
 
 Installation
 
-- Clone the repository:
-  ```bash
-  git clone https://github.com/ayushn2/blockchainx.git  
-  cd blockchainx
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/ayushn2/blockchainx.git  
+    cd blockchainx
 
-- Build the project:
-  ```bash
-  go build
+2. Build the project:
+    ```bash
+    go build
 
 ### Running the CLI
 
 - Start the CLI:
-  ```bash
-  go run main.go COMMAND [OPTIONS]
+    ```bash
+    go run main.go COMMAND [OPTIONS]
 
 Replace COMMAND with one of the CLI commands mentioned above.
+
+### Example Commands
+
+1.	Create a Blockchain:
+     ```bash
+     go run main.go createblockchain -address your-address
+
+2. Print the Blockchain:
+     ```bash
+     go run main.go printchain
+
+3. Send Coins:
+     ```bash
+     go run main.go send -from sender-address -to receiver-address -amount 10
+
+4. Get Balance:
+     ```bash
+     go run main.go getbalance -address your-address
+
+5. Create a Wallet:
+     ```bash
+     go run main.go createwallet
+
+6. List Addresses:
+     ```bash
+     go run main.go listaddresses  
 
 ### To Do
 
