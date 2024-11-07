@@ -38,7 +38,7 @@ Fetch the balance for the given address.
 
 - **Create Blockchain**
     ```bash
-    createdblockchain -address ADDRESS
+    createblockchain -address ADDRESS
 
 Initializes a new blockchain and rewards the address with the genesis block.
 
